@@ -1193,6 +1193,14 @@ export const getUnreadNotificationsCount = createSelector(
   getUnreadNotifications,
   (notifications) => notifications.length,
 );
+
+export const getInterfaces = (state) => state.metamask.interfaces;
+
+export const getInteraceState = createDeepEqualSelector(
+  getInterfaces,
+  (_, interfaceId) => interfaceId,
+  (interfaces, interfaceId) => interfaces[interfaceId].state,
+);
 ///: END:ONLY_INCLUDE_IF
 
 /**
