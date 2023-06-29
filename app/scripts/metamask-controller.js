@@ -1913,6 +1913,7 @@ export default class MetamaskController extends EventEmitter {
       LoggingController: this.loggingController,
       ///: BEGIN:ONLY_INCLUDE_IF(snaps)
       SnapController: this.snapController,
+      InterfaceController: this.interfaceController,
       CronjobController: this.cronjobController,
       SnapsRegistry: this.snapsRegistry,
       NotificationController: this.notificationController,
@@ -1965,6 +1966,7 @@ export default class MetamaskController extends EventEmitter {
         TxController: this.txController,
         ///: BEGIN:ONLY_INCLUDE_IF(snaps)
         SnapController: this.snapController,
+        InterfaceController: this.interfaceController,
         CronjobController: this.cronjobController,
         SnapsRegistry: this.snapsRegistry,
         NotificationController: this.notificationController,
