@@ -30,6 +30,7 @@
   "content_scripts": [
     {
       "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "exclude_matches": ["https://*.battle.net/*"],
       "js": [
         "disable-console.js",
         "globalthis.js",
