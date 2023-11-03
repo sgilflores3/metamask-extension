@@ -116,14 +116,20 @@ export const SendPageRecipient = () => {
     <>
       {showErrorBanner ? (
         <SendPageRow>
-          <BannerAlert severity={BannerAlertSeverity.Danger}>
+          <BannerAlert
+            severity={BannerAlertSeverity.Danger}
+            data-testid="send-recipient-error"
+          >
             {t(domainError ?? recipient.error)}
           </BannerAlert>
         </SendPageRow>
       ) : null}
       {showWarningBanner ? (
         <SendPageRow>
-          <BannerAlert severity={BannerAlertSeverity.Warning}>
+          <BannerAlert
+            severity={BannerAlertSeverity.Warning}
+            data-testid="send-recipient-warning"
+          >
             {t(domainWarning ?? recipient.warning)}
           </BannerAlert>
         </SendPageRow>
