@@ -5,11 +5,6 @@ exports[`SendPageYourAccounts render renders correctly 1`] = `
   <div
     class="mm-box mm-box--padding-bottom-6 mm-box--display-flex mm-box--flex-direction-column"
   >
-    <label
-      class="mm-box mm-text mm-label mm-text--body-md mm-text--font-weight-medium mm-box--padding-bottom-2 mm-box--display-inline-flex mm-box--align-items-center mm-box--color-text-default"
-    >
-      Your accounts
-    </label>
     <div
       class="mm-box multichain-account-list-item mm-box--padding-4 mm-box--display-flex mm-box--background-color-transparent"
     >
