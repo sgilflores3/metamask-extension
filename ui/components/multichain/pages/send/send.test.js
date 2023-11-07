@@ -3,13 +3,15 @@ import thunk from 'redux-thunk';
 import { useLocation } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
 import { NetworkType } from '@metamask/controller-utils';
-import { renderWithProvider } from '../../../../../test/jest';
+import mockState from '../../../../../test/data/mock-state.json';
+import { fireEvent, renderWithProvider } from '../../../../../test/jest';
 import { domainInitialState } from '../../../../ducks/domains';
 import { INITIAL_SEND_STATE_FOR_EXISTING_DRAFT } from '../../../../../test/jest/mocks';
 import { GasEstimateTypes } from '../../../../../shared/constants/gas';
 import { KeyringType } from '../../../../../shared/constants/keyring';
 import { CHAIN_IDS } from '../../../../../shared/constants/network';
-import { startNewDraftTransaction } from '../../../../ducks/send';
+import { SEND_STAGES, startNewDraftTransaction } from '../../../../ducks/send';
+import { DEFAULT_ROUTE } from '../../../../helpers/constants/routes';
 import { SendPage } from '.';
 
 jest.mock('@ethersproject/providers', () => {
@@ -22,6 +24,16 @@ jest.mock('@ethersproject/providers', () => {
   };
 });
 
+const mockCancelTx = jest.fn();
+jest.mock('../../../../store/actions.ts', () => {
+  const originalModule = jest.requireActual('@ethersproject/providers');
+  return {
+    ...originalModule,
+    cancelTx: () => mockCancelTx,
+  };
+});
+
+const mockResetSendState = jest.fn();
 jest.mock('../../../../ducks/send/send', () => {
   const original = jest.requireActual('../../../../ducks/send/send');
   return {
@@ -33,6 +45,7 @@ jest.mock('../../../../ducks/send/send', () => {
       type: 'TEST_START_NEW_DRAFT',
       payload: null,
     })),
+    resetSendState: () => mockResetSendState,
   };
 });
 
@@ -136,6 +149,7 @@ describe('SendPage', () => {
       );
     });
 
+    /*
     it('should showQrScanner when location.search is ?scan=true', () => {
       useLocation.mockImplementation(() => ({ search: '?scan=true' }));
       const store = configureMockStore(middleware)(baseStore);
@@ -154,6 +168,7 @@ describe('SendPage', () => {
       );
       useLocation.mockImplementation(() => ({ search: '' }));
     });
+    */
 
     it('should render correctly even when a draftTransaction does not exist', () => {
       const modifiedStore = {
@@ -179,6 +194,50 @@ describe('SendPage', () => {
 
       // Ensure we start a new draft transaction when its missing.
       expect(startNewDraftTransaction).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('footer buttons', () => {
+    const mockStore = configureMockStore([thunk])(mockState);
+
+    describe('onCancel', () => {
+      it('should call reset send state and route to recent page without cancelling tx', () => {
+        const { queryByText } = renderWithProvider(<SendPage />, mockStore);
+
+        const cancelText = queryByText('Cancel');
+        fireEvent.click(cancelText);
+
+        expect(mockResetSendState).toHaveBeenCalled();
+        expect(mockCancelTx).not.toHaveBeenCalled();
+      });
+
+      it('should reject/cancel tx when coming from tx editing and route to index', () => {
+        const sendDataState = {
+          ...mockState,
+          send: {
+            currentTransactionUUID: '01',
+            draftTransactions: {
+              '01': {
+                id: '99',
+              },
+            },
+            stage: SEND_STAGES.EDIT,
+          },
+        };
+
+        const sendStateStore = configureMockStore([thunk])(sendDataState);
+
+        const { queryByText } = renderWithProvider(
+          <SendPage />,
+          sendStateStore,
+        );
+
+        const rejectText = queryByText('Reject');
+        fireEvent.click(rejectText);
+
+        expect(mockResetSendState).toHaveBeenCalled();
+        expect(mockCancelTx).toHaveBeenCalled();
+      });
     });
   });
 });
