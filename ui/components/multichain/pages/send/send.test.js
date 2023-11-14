@@ -11,8 +11,8 @@ import { GasEstimateTypes } from '../../../../../shared/constants/gas';
 import { KeyringType } from '../../../../../shared/constants/keyring';
 import { CHAIN_IDS } from '../../../../../shared/constants/network';
 import { SEND_STAGES, startNewDraftTransaction } from '../../../../ducks/send';
-import { SendPage } from '.';
 import { AssetType } from '../../../../../shared/constants/transaction';
+import { SendPage } from '.';
 
 jest.mock('@ethersproject/providers', () => {
   const originalModule = jest.requireActual('@ethersproject/providers');
@@ -26,16 +26,20 @@ jest.mock('@ethersproject/providers', () => {
 
 const mockCancelTx = jest.fn();
 jest.mock('../../../../store/actions.ts', () => {
-  const originalModule = jest.requireActual('@ethersproject/providers');
+  const originalModule = jest.requireActual('../../../../store/actions.ts');
   return {
     ...originalModule,
+    /*
     disconnectGasFeeEstimatePoller: jest.fn(),
     getGasFeeEstimatesAndStartPolling: jest
       .fn()
       .mockImplementation(() => Promise.resolve()),
     addPollingTokenToAppState: jest.fn(),
     removePollingTokenFromAppState: jest.fn(),
-    getGasFeeTimeEstimate: jest.fn().mockImplementation(() => Promise.resolve()),
+    getGasFeeTimeEstimate: jest
+      .fn()
+      .mockImplementation(() => Promise.resolve()),
+      */
     cancelTx: () => mockCancelTx,
   };
 });
@@ -163,7 +167,6 @@ describe('SendPage', () => {
       );
     });
 
-    /*
     it('should showQrScanner when location.search is ?scan=true', () => {
       useLocation.mockImplementation(() => ({ search: '?scan=true' }));
       const store = configureMockStore(middleware)(baseStore);
@@ -182,7 +185,6 @@ describe('SendPage', () => {
       );
       useLocation.mockImplementation(() => ({ search: '' }));
     });
-    */
 
     it('should render correctly even when a draftTransaction does not exist', () => {
       const modifiedStore = {
