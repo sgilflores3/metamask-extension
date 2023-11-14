@@ -11,8 +11,8 @@ import { GasEstimateTypes } from '../../../../../shared/constants/gas';
 import { KeyringType } from '../../../../../shared/constants/keyring';
 import { CHAIN_IDS } from '../../../../../shared/constants/network';
 import { SEND_STAGES, startNewDraftTransaction } from '../../../../ducks/send';
-import { DEFAULT_ROUTE } from '../../../../helpers/constants/routes';
 import { SendPage } from '.';
+import { AssetType } from '../../../../../shared/constants/transaction';
 
 jest.mock('@ethersproject/providers', () => {
   const originalModule = jest.requireActual('@ethersproject/providers');
@@ -29,15 +29,22 @@ jest.mock('../../../../store/actions.ts', () => {
   const originalModule = jest.requireActual('@ethersproject/providers');
   return {
     ...originalModule,
+    disconnectGasFeeEstimatePoller: jest.fn(),
+    getGasFeeEstimatesAndStartPolling: jest
+      .fn()
+      .mockImplementation(() => Promise.resolve()),
+    addPollingTokenToAppState: jest.fn(),
+    removePollingTokenFromAppState: jest.fn(),
+    getGasFeeTimeEstimate: jest.fn().mockImplementation(() => Promise.resolve()),
     cancelTx: () => mockCancelTx,
   };
 });
 
 const mockResetSendState = jest.fn();
 jest.mock('../../../../ducks/send/send', () => {
-  const original = jest.requireActual('../../../../ducks/send/send');
+  const originalModule = jest.requireActual('../../../../ducks/send/send');
   return {
-    ...original,
+    ...originalModule,
     // We don't really need to start a draft transaction, and the mock store
     // does not update as a result of action calls so instead we just ensure
     // that the action WOULD be called.
@@ -69,6 +76,13 @@ describe('SendPage', () => {
             },
           },
         ],
+        currencyRates: {
+          ETH: {
+            conversionDate: 1620710825.03,
+            conversionRate: 3910.28,
+            usdConversionRate: 3910.28,
+          },
+        },
         gasEstimateType: GasEstimateTypes.legacy,
         gasFeeEstimates: {
           low: '0',
@@ -219,6 +233,14 @@ describe('SendPage', () => {
             draftTransactions: {
               '01': {
                 id: '99',
+                amount: {
+                  value: '0x1',
+                },
+                asset: {
+                  type: AssetType.token,
+                  balance: '0xaf',
+                  details: {},
+                },
               },
             },
             stage: SEND_STAGES.EDIT,
