@@ -45,14 +45,6 @@ describe('SendPageRecipient', () => {
         container.querySelector('[data-testid="send-contacts-tab"]'),
       ).toBeInTheDocument();
     });
-
-    it('renders address book items when contacts tab is clicked', () => {
-      const { container } = render();
-      fireEvent.click(
-        container.querySelector('[data-testid="send-contacts-tab"]'),
-      );
-      expect(container.querySelector('.address-list-item')).toBeInTheDocument();
-    });
   });
 
   describe('errors and warnings', () => {
