@@ -1,7 +1,7 @@
 import React from 'react';
 import configureStore from '../../../../../store/store';
 import mockState from '../../../../../../test/data/mock-state.json';
-import { renderWithProvider } from '../../../../../../test/jest';
+import { fireEvent, renderWithProvider } from '../../../../../../test/jest';
 import {
   CONFUSING_ENS_ERROR,
   ENS_UNKNOWN_ERROR,
@@ -39,11 +39,19 @@ describe('SendPageRecipient', () => {
   });
 
   describe('address book', () => {
-    it('renders the address book', () => {
+    it('renders the address book tab', () => {
       const { container } = render();
       expect(
-        container.querySelector('.send__select-recipient-wrapper__list'),
+        container.querySelector('[data-testid="send-contacts-tab"]'),
       ).toBeInTheDocument();
+    });
+
+    it('renders address book items when contacts tab is clicked', () => {
+      const { container } = render();
+      fireEvent.click(
+        container.querySelector('[data-testid="send-contacts-tab"]'),
+      );
+      expect(container.querySelector('.address-list-item')).toBeInTheDocument();
     });
   });
 
