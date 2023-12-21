@@ -85,7 +85,7 @@ workflows:
             - prep-deps
       - test-e2e-swap-playwright - OPTIONAL:
           requires:
-            - prep-build-test-mswapmi-playwright
+            - prep-build-test-swap-playwright
 
 jobs:
   trigger-beta-build:
