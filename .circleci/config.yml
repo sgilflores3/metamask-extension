@@ -86,9 +86,6 @@ workflows:
       - test-e2e-swap-playwright - OPTIONAL:
           requires:
             - prep-build-test-swap-playwright
-      - test-e2e-mmi-playwright - OPTIONAL:
-          requires:
-            - prep-build-test-mmi-playwright
 jobs:
   trigger-beta-build:
     executor: node-browsers-medium-plus
@@ -897,7 +894,7 @@ jobs:
 
   test-e2e-swap-playwright - OPTIONAL:
     executor: playwright
-    parallelism: 1
+    parallelism: 2
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
