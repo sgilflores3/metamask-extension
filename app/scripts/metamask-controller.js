@@ -85,6 +85,7 @@ import {
   buildSnapRestrictedMethodSpecifications,
 } from '@metamask/snaps-controllers';
 import { createSnapsMethodMiddleware } from '@metamask/snaps-rpc-methods';
+import { PREINSTALLED_SNAPS } from './snaps/preinstalled-snaps';
 ///: END:ONLY_INCLUDE_IF
 
 import { AccountsController } from '@metamask/accounts-controller';
@@ -1166,6 +1167,7 @@ export default class MetamaskController extends EventEmitter {
         `${this.approvalController.name}:updateRequestState`,
         `${this.permissionController.name}:grantPermissions`,
         `${this.subjectMetadataController.name}:getSubjectMetadata`,
+        `${this.subjectMetadataController.name}:addSubjectMetadata`,
         `${this.phishingController.name}:maybeUpdateState`,
         `${this.phishingController.name}:testOrigin`,
         'ExecutionService:executeSnap',
@@ -1197,6 +1199,7 @@ export default class MetamaskController extends EventEmitter {
         allowLocalSnaps,
         requireAllowlist,
       },
+      preinstalledSnaps: PREINSTALLED_SNAPS,
     });
 
     this.notificationController = new NotificationController({
