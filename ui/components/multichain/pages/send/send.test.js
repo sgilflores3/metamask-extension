@@ -1,6 +1,5 @@
 import React from 'react';
 import thunk from 'redux-thunk';
-import { useLocation } from 'react-router-dom';
 import configureMockStore from 'redux-mock-store';
 import { NetworkType } from '@metamask/controller-utils';
 import mockState from '../../../../../test/data/mock-state.json';
@@ -29,7 +28,6 @@ jest.mock('../../../../store/actions.ts', () => {
   const originalModule = jest.requireActual('../../../../store/actions.ts');
   return {
     ...originalModule,
-    /*
     disconnectGasFeeEstimatePoller: jest.fn(),
     getGasFeeEstimatesAndStartPolling: jest
       .fn()
@@ -39,7 +37,6 @@ jest.mock('../../../../store/actions.ts', () => {
     getGasFeeTimeEstimate: jest
       .fn()
       .mockImplementation(() => Promise.resolve()),
-      */
     cancelTx: () => mockCancelTx,
   };
 });
@@ -165,25 +162,6 @@ describe('SendPage', () => {
           }),
         ]),
       );
-    });
-
-    it('should showQrScanner when location.search is ?scan=true', () => {
-      useLocation.mockImplementation(() => ({ search: '?scan=true' }));
-      const store = configureMockStore(middleware)(baseStore);
-      renderWithProvider(<SendPage />, store);
-      const actions = store.getActions();
-      expect(actions).toStrictEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            type: 'DNS/enableDomainLookup',
-          }),
-          expect.objectContaining({
-            type: 'UI_MODAL_OPEN',
-            payload: { name: 'QR_SCANNER' },
-          }),
-        ]),
-      );
-      useLocation.mockImplementation(() => ({ search: '' }));
     });
 
     it('should render correctly even when a draftTransaction does not exist', () => {

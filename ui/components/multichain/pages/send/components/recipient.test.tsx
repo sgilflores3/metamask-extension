@@ -1,7 +1,7 @@
 import React from 'react';
 import configureStore from '../../../../../store/store';
 import mockState from '../../../../../../test/data/mock-state.json';
-import { fireEvent, renderWithProvider } from '../../../../../../test/jest';
+import { renderWithProvider } from '../../../../../../test/jest';
 import {
   CONFUSING_ENS_ERROR,
   ENS_UNKNOWN_ERROR,

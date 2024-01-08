@@ -189,6 +189,7 @@ exports[`SendPage render and initialization should render correctly even when a 
               </li>
               <li
                 class="box tab box--flex-direction-row"
+                data-testid="send-contacts-tab"
               >
                 <button
                   class="box box--padding-2 box--display-block box--flex-direction-row box--text-align-center box--width-full"
