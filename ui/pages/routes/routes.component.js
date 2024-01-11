@@ -501,7 +501,7 @@ export default class Routes extends Component {
         exact: false,
       }),
     );
-    if (process.env.MULTICHAIN && isMultichainSend) {
+    if (isMultichainSend) {
       return true;
     }
 
