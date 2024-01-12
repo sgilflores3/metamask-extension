@@ -22,6 +22,7 @@ export const BadgeWrapper: BadgeWrapperComponent = React.forwardRef(
       positionObj,
       anchorElementShape = BadgeWrapperAnchorElementShape.circular,
       className = '',
+      as: _as, // ignore, `as` in props is not a valid property on `Box`
       ...props
     }: BadgeWrapperProps<C>,
     ref?: PolymorphicRef<C>,
@@ -30,7 +31,7 @@ export const BadgeWrapper: BadgeWrapperComponent = React.forwardRef(
       className={classnames('mm-badge-wrapper', className)}
       ref={ref}
       display={Display.InlineBlock}
-      {...props} // TODO: There is a typing issue with spreading props to the Box component. It still works but TypeScript complains.
+      {...props}
     >
       {/* Generally the AvatarAccount or AvatarToken */}
       {children}

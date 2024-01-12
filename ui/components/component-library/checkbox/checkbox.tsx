@@ -32,6 +32,7 @@ export const Checkbox: CheckboxComponent = React.forwardRef(
       title,
       name,
       label,
+      as: _as, // ignore, `as` in props is not a valid property on `Box`
       ...props
     }: CheckboxProps<C>,
     ref?: PolymorphicRef<C>,
@@ -56,7 +57,7 @@ export const Checkbox: CheckboxComponent = React.forwardRef(
         alignItems={AlignItems.center}
         ref={ref}
         htmlFor={id}
-        {...props} // TODO: There is a typing issue with spreading props to the Box component. It still works but TypeScript complains.
+        {...props}
       >
         <span className="mm-checkbox__input-wrapper">
           <Box

@@ -1,3 +1,7 @@
+// @ts-nocheck `redux-thunk` and `@reduxjs/toolkit` are not compatible with
+// TypeScript 5.3.3. We can't update them because we rely on an old version of
+// @reduxjs/toolkit to be patched by our patch files. The patch is 6000+ lines.
+// I don't want to try to figure that one out.
 import { ReactFragment } from 'react';
 import log from 'loglevel';
 import { captureException } from '@sentry/browser';
@@ -1257,7 +1261,7 @@ export function deleteExpiredNotifications(): ThunkAction<
 
         return Boolean(
           notification.readDate &&
-            new Date(notification.readDate) < expirationTime,
+          new Date(notification.readDate) < expirationTime,
         );
       })
       .map(({ id }) => id);
@@ -3257,15 +3261,15 @@ export function setPendingTokens(pendingTokens: {
   } = pendingTokens;
   const tokens =
     customToken?.address &&
-    customToken?.symbol &&
-    Boolean(customToken?.decimals >= 0 && customToken?.decimals <= 36)
+      customToken?.symbol &&
+      Boolean(customToken?.decimals >= 0 && customToken?.decimals <= 36)
       ? {
-          ...selectedTokens,
-          [customToken.address]: {
-            ...customToken,
-            isCustom: true,
-          },
-        }
+        ...selectedTokens,
+        [customToken.address]: {
+          ...customToken,
+          isCustom: true,
+        },
+      }
       : selectedTokens;
 
   Object.keys(tokens).forEach((tokenAddress) => {
