@@ -220,7 +220,8 @@
     "@metamask/eth-keyring-controller@npm:^13.0.1": "patch:@metamask/eth-keyring-controller@npm%3A13.0.1#~/.yarn/patches/@metamask-eth-keyring-controller-npm-13.0.1-06ff83faad.patch",
     "nonce-tracker@npm:^3.0.0": "patch:nonce-tracker@npm%3A3.0.0#~/.yarn/patches/nonce-tracker-npm-3.0.0-c5e9a93f9d.patch",
     "@metamask/accounts-controller@npm:^4.0.0": "patch:@metamask/accounts-controller@npm%3A4.0.0#~/.yarn/patches/@metamask-accounts-controller-npm-4.0.0-3127b56d14.patch",
-    "@trezor/connect-web": "9.0.11"
+    "@trezor/connect-web": "9.0.11",
+    "@metamask/queued-request-controller@^0.3.0": "file:../core/packages/queued-request-controller"
   },
   "dependencies": {
     "@babel/runtime": "^7.23.2",
@@ -251,7 +252,7 @@
     "@metamask/announcement-controller": "^5.0.1",
     "@metamask/approval-controller": "^5.1.0",
     "@metamask/assets-controllers": "^24.0.0",
-    "@metamask/base-controller": "^4.0.0",
+    "@metamask/base-controller": "^4.1.0",
     "@metamask/browser-passworder": "^4.3.0",
     "@metamask/contract-metadata": "^2.3.1",
     "@metamask/controller-utils": "^5.0.0",

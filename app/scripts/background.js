@@ -797,6 +797,11 @@ export function setupController(
     updateBadge,
   );
 
+  controller.controllerMessenger.subscribe(
+    METAMASK_CONTROLLER_EVENTS.QUEUED_REQUEST_STATE_CHANGE,
+    updateBadge,
+  );
+
   controller.txController.initApprovals();
 
   /**
@@ -822,7 +827,7 @@ export function setupController(
   function getUnapprovedTransactionCount() {
     let count = controller.appStateController.waitingForUnlock.length;
     if (controller.preferencesController.getUseRequestQueue()) {
-      count += controller.queuedRequestController.length();
+      count += controller.queuedRequestController.state.queuedRequestCount;
     } else {
       count += controller.approvalController.getTotalApprovalCount();
     }
