@@ -16,13 +16,15 @@ const RedirectUrlIcon = ({ url, onSubmit }: RedirectUrlIconProps) => {
     <ButtonIcon
       data-testid={'snap-account-redirect-url-icon'}
       onClick={() => {
-        global.platform.openTab({ url });
+        // global.platform.openTab({ url });
         onSubmit?.();
       }}
       iconName={IconName.Export}
       color={IconColor.primaryDefault}
       size={ButtonIconSize.Sm}
       ariaLabel={''}
+      href={url}
+      target="snap-accounts"
     />
   );
 };

@@ -244,11 +244,11 @@ class Driver {
     return wrapElementWithAPI(element, this);
   }
 
-  async findClickableElement(rawLocator) {
+  async findClickableElement(rawLocator, timeout = this.timeout) {
     const element = await this.findElement(rawLocator);
     await Promise.all([
-      this.driver.wait(until.elementIsVisible(element), this.timeout),
-      this.driver.wait(until.elementIsEnabled(element), this.timeout),
+      this.driver.wait(until.elementIsVisible(element), timeout),
+      this.driver.wait(until.elementIsEnabled(element), timeout),
     ]);
     return wrapElementWithAPI(element, this);
   }
@@ -276,8 +276,8 @@ class Driver {
     return elements.map((element) => wrapElementWithAPI(element, this));
   }
 
-  async clickElement(rawLocator) {
-    const element = await this.findClickableElement(rawLocator);
+  async clickElement(rawLocator, timeout = this.timeout) {
+    const element = await this.findClickableElement(rawLocator, timeout);
     await element.click();
   }
 

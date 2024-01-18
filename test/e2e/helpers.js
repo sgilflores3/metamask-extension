@@ -877,6 +877,7 @@ async function validateContractDetails(driver) {
   try {
     await driver.clickElement(
       '[data-testid="signature-request-scroll-button"]',
+      2000,
     );
   } catch (error) {
     // Ignore error if scroll button is not present

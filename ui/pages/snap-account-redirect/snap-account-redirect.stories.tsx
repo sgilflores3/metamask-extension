@@ -29,7 +29,7 @@ export default {
   args: {
     snapName: 'Snap Simple Keyring',
     isBlockedUrl: false,
-    url: 'https://metamask.github.io/snap-simple-keyring/0.2.4/',
+    url: 'https://metamask.github.io/snap-simple-keyring/1.1.1/',
     message: 'Redirecting to Snap Simple Keyring',
   },
 } as Meta<typeof SnapAccountRedirect>;

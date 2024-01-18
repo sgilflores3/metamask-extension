@@ -13,7 +13,7 @@ import {
 import { Driver } from '../webdriver/driver';
 
 export const TEST_SNAPS_SIMPLE_KEYRING_WEBSITE_URL =
-  'https://metamask.github.io/snap-simple-keyring/1.0.1/';
+  'https://metamask.github.io/snap-simple-keyring/1.1.1/';
 
 /**
  * These are fixtures specific to Account Snap E2E tests:
@@ -98,9 +98,7 @@ async function toggleAsyncFlow(driver: Driver) {
   await driver.switchToWindowWithTitle(WINDOW_TITLES.SnapSimpleKeyringDapp);
 
   // click the parent of #use-sync-flow-toggle (trying to click the element itself gives "ElementNotInteractableError: could not be scrolled into view")
-  await driver.clickElement({
-    xpath: '//input[@id="use-sync-flow-toggle"]/..',
-  });
+  await driver.clickElement('[data-testid="use-sync-flow-toggle"]');
 }
 
 export async function importKeyAndSwitch(driver: Driver) {
@@ -143,7 +141,17 @@ export async function makeNewAccountAndSwitch(driver: Driver) {
   });
 
   // Click "Create" on the Snap's confirmation popup
-  await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
+  try {
+    await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
+  } catch (e) {
+    console.log('Caught the no window problem:', e);
+    await driver.switchToWindowWithTitle(WINDOW_TITLES.SnapSimpleKeyringDapp);
+    await driver.clickElement({
+      text: 'Create Account',
+      tag: 'button',
+    });
+    await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
+  }
   await driver.clickElement({
     css: '[data-testid="confirmation-submit-button"]',
     text: 'Create',

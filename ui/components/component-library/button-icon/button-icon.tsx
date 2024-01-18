@@ -37,6 +37,7 @@ export const ButtonIcon: ButtonIconComponent = React.forwardRef(
       iconName,
       disabled,
       iconProps,
+      target,
       ...props
     }: ButtonIconProps<C>,
     ref?: PolymorphicRef<C>,
@@ -63,6 +64,7 @@ export const ButtonIcon: ButtonIconComponent = React.forwardRef(
         borderRadius={BorderRadius.LG}
         backgroundColor={BackgroundColor.transparent}
         {...(href ? { href } : {})}
+        target={target}
         ref={ref}
         {...(props as BoxProps<C>)}
       >
