@@ -5217,17 +5217,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@metamask/swappable-obj-proxy@npm:2.2.0":
+"@metamask/swappable-obj-proxy@npm:2.2.0, @metamask/swappable-obj-proxy@npm:^2.1.0":
   version: 2.2.0
   resolution: "@metamask/swappable-obj-proxy@npm:2.2.0"
   checksum: bc7a1f496d06327f1db84fe2ed75637b6f2f5db0806d3927f250d5abab9cc70a26ff37283ea7f2db7987e48d2540f6821091d1f3000d6771f29c4d91c402f724
-  languageName: node
-  linkType: hard
-
-"@metamask/swappable-obj-proxy@npm:^2.1.0":
-  version: 2.1.0
-  resolution: "@metamask/swappable-obj-proxy@npm:2.1.0"
-  checksum: e6628ffbb9c34c07aee2e7f97f00f06eba2d00fcd3f6cac555256dd1b37a73d81eff53030cd129c9dd6db711c9e10c41e857082816f8a0e3de724448c1f2edaa
   languageName: node
   linkType: hard
 
