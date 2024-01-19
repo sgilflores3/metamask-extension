@@ -70,8 +70,13 @@ commands:
     parameters:
       command:
         type: string
+      repeat3name:
+        type: string
+        default: << parameters.command >>
     steps:
-      - run: << parameters.command >> || << parameters.command >> || << parameters.command >>
+      - run:
+          name: << parameters.repeat3name >>
+          command: << parameters.command >> || << parameters.command >> || << parameters.command >>
 
 workflows:
   test_and_release:
@@ -447,9 +452,9 @@ jobs:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
-          name: Validate LavaMoat << parameters.build-type >>  policy
-          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>' || yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
+      - repeat3:
+          repeat3name: Validate LavaMoat << parameters.build-type >>  policy
+          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -635,10 +640,10 @@ jobs:
       - attach_workspace:
           at: .
       - run:
-          name: Build MMI extension for Playwright e2e
-          command: |
-            export MMI_CONFIGURATION_SERVICE_URL=$MMI_DEV_CONFIGURATION_SERVICE_URL
-            yarn dist:mmi || yarn dist:mmi
+          command: export MMI_CONFIGURATION_SERVICE_URL=$MMI_DEV_CONFIGURATION_SERVICE_URL
+      - repeat3:
+          repeat3name: Build MMI extension for Playwright e2e
+          command: yarn dist:mmi
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mmi-playwright
@@ -696,15 +701,14 @@ jobs:
 
   prep-build-multichain-test:
     executor: node-browsers-medium-plus
+    environment:
+      MULTICHAIN: 1
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
-          name: Build extension for testing
-          command: yarn build:test || yarn build:test || yarn build:test
-          environment:
-            MULTICHAIN: 1
+      - repeat3:
+          command: yarn build:test
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-multichain
