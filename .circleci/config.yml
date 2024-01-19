@@ -425,7 +425,7 @@ jobs:
           at: .
       - run:
           name: Validate LavaMoat build policy
-          command: yarn lavamoat:build:auto
+          command: yarn lavamoat:build:auto || yarn lavamoat:build:auto
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -441,7 +441,7 @@ jobs:
           at: .
       - run:
           name: Validate LavaMoat << parameters.build-type >>  policy
-          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
+          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>' || yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -461,7 +461,7 @@ jobs:
           steps:
             - run:
                 name: build:dist
-                command: yarn build dist
+                command: yarn build dist || yarn build dist
       - when:
           condition:
             matches:
@@ -470,7 +470,7 @@ jobs:
           steps:
             - run:
                 name: build:prod
-                command: yarn build prod
+                command: yarn build prod || yarn build prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -488,7 +488,7 @@ jobs:
           at: .
       - run:
           name: build:dist
-          command: yarn build --build-type desktop dist
+          command: yarn build --build-type desktop dist || yarn build --build-type desktop dist
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -519,7 +519,7 @@ jobs:
           steps:
             - run:
                 name: build:dist
-                command: yarn build --build-type mmi dist
+                command: yarn build --build-type mmi dist || yarn build --build-type mmi dist
       - when:
           condition:
             matches:
@@ -528,7 +528,7 @@ jobs:
           steps:
             - run:
                 name: build:prod
-                command: yarn build --build-type mmi prod
+                command: yarn build --build-type mmi prod || yarn build --build-type mmi prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -562,7 +562,7 @@ jobs:
           steps:
             - run:
                 name: build:dist
-                command: yarn build --build-type flask dist
+                command: yarn build --build-type flask dist || yarn build --build-type flask dist
       - when:
           condition:
             matches:
@@ -571,7 +571,7 @@ jobs:
           steps:
             - run:
                 name: build:prod
-                command: yarn build --build-type flask prod
+                command: yarn build --build-type flask prod || yarn build --build-type flask prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -595,7 +595,7 @@ jobs:
           at: .
       - run:
           name: Build extension for testing
-          command: yarn build:test:flask
+          command: yarn build:test:flask || yarn build:test:flask
       - run:
           name: Move test build to 'dist-test-flask' to avoid conflict with production build
           command: mv ./dist ./dist-test-flask
@@ -616,7 +616,7 @@ jobs:
           at: .
       - run:
           name: Build extension for testing
-          command: yarn build:test:mmi
+          command: yarn build:test:mmi || yarn build:test:mmi
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mmi
@@ -639,7 +639,7 @@ jobs:
           name: Build MMI extension for Playwright e2e
           command: |
             export MMI_CONFIGURATION_SERVICE_URL=$MMI_DEV_CONFIGURATION_SERVICE_URL
-            yarn dist:mmi
+            yarn dist:mmi || yarn dist:mmi
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mmi-playwright
@@ -663,7 +663,7 @@ jobs:
           at: .
       - run:
           name: Build extension in mv3 for testing
-          command: yarn build:test:mv3
+          command: yarn build:test:mv3 || yarn build:test:mv3
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mv3
@@ -684,7 +684,7 @@ jobs:
           at: .
       - run:
           name: Build extension for testing
-          command: yarn build:test
+          command: yarn build:test || yarn build:test
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test
@@ -705,7 +705,9 @@ jobs:
           at: .
       - run:
           name: Build extension for testing
-          command: MULTICHAIN=1 yarn build:test
+          command: yarn build:test || yarn build:test
+          environment:
+            MULTICHAIN: 1
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-multichain
@@ -868,7 +870,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome --retries 2 --debug
+              timeout 20m yarn test:e2e:chrome --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -895,7 +897,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome --retries 2 --debug
+              timeout 20m yarn test:e2e:chrome --retries 2 --debug
             fi
           no_output_timeout: 5m
           environment:
@@ -924,7 +926,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome --retries 2 --debug || echo "Temporarily suppressing MV3 e2e test failures"
+              timeout 20m yarn test:e2e:chrome --retries 2 --debug || echo "Temporarily suppressing MV3 e2e test failures"
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -949,7 +951,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome:rpc --retries 2
+              timeout 20m yarn test:e2e:chrome:rpc --retries 2
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1002,7 +1004,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome:rpc --retries 2 --debug --build-type=mmi
+              timeout 20m yarn test:e2e:chrome:rpc --retries 2 --debug --build-type=mmi
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1044,7 +1046,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:firefox:flask --retries 2 --debug
+              timeout 20m yarn test:e2e:firefox:flask --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1071,7 +1073,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome:flask --retries 2 --debug
+              timeout 20m yarn test:e2e:chrome:flask --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1098,7 +1100,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:chrome:mmi --retries 2 --debug --build-type=mmi
+              timeout 20m yarn test:e2e:chrome:mmi --retries 2 --debug --build-type=mmi
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1126,7 +1128,7 @@ jobs:
           command: |
             TESTFILES=$(circleci tests glob "test/e2e/mmi/**/*.spec.ts")
             echo "$TESTFILES"
-            echo "$TESTFILES" | circleci tests run --command="xvfb-run xargs yarn playwright test" verbose --split-by=timings
+            echo "$TESTFILES" | timeout 20m circleci tests run --command="xvfb-run xargs yarn playwright test" verbose --split-by=timings
           no_output_timeout: 10m
       - slack/notify:
           branch_pattern: Version-v*
@@ -1165,7 +1167,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              yarn test:e2e:firefox --retries 2 --debug
+              timeout 20m yarn test:e2e:firefox --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
