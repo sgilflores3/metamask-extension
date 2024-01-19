@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const { execSync } = require('child_process');
+// const { execSync } = require('child_process');
 const yargs = require('yargs/yargs');
 const { hideBin } = require('yargs/helpers');
 const { runInShell } = require('../../development/lib/run-command');
@@ -36,7 +36,7 @@ const getTestPathsForTestDir = async (testDir) => {
 };
 
 // For running E2Es in parallel in CI
-/*function runningOnCircleCI(testPaths) {
+/* function runningOnCircleCI(testPaths) {
   const fullTestList = testPaths.join('\n');
   console.log('Full test list:', fullTestList);
   fs.writeFileSync('test/test-results/fullTestList.txt', fullTestList);
@@ -220,9 +220,8 @@ async function main() {
       '/home/circleci/project/test/e2e/accounts/snap-account-signatures.spec.ts',
     )
   ) {
-    myTestList = Array(10).fill(
-      'test/e2e/accounts/snap-account-signatures.spec.ts',
-    );
+    const ree = await getTestPathsForTestDir(path.join(__dirname, 'accounts'));
+    myTestList = Array(5).fill(ree).flat();
   } else {
     myTestList = [];
   }

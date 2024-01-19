@@ -854,7 +854,7 @@ jobs:
 
   test-e2e-chrome:
     executor: node-browsers-large
-    parallelism: 24
+    parallelism: 25
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -881,7 +881,7 @@ jobs:
 
   test-e2e-chrome-multichain:
     executor: node-browsers-large
-    parallelism: 24
+    parallelism: 25
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -910,7 +910,7 @@ jobs:
 
   test-e2e-chrome-mv3:
     executor: node-browsers-large
-    parallelism: 24
+    parallelism: 1
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -1030,7 +1030,7 @@ jobs:
 
   test-e2e-firefox-flask:
     executor: node-browsers-large
-    parallelism: 16
+    parallelism: 25
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -1057,7 +1057,7 @@ jobs:
 
   test-e2e-chrome-flask:
     executor: node-browsers-large
-    parallelism: 16
+    parallelism: 25
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -1084,7 +1084,7 @@ jobs:
 
   test-e2e-chrome-mmi:
     executor: node-browsers-large
-    parallelism: 16
+    parallelism: 1
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -1111,7 +1111,7 @@ jobs:
 
   test-e2e-mmi-playwright - OPTIONAL:
     executor: playwright
-    parallelism: 2
+    parallelism: 1
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
@@ -1151,7 +1151,7 @@ jobs:
 
   test-e2e-firefox:
     executor: node-browsers-large
-    parallelism: 24
+    parallelism: 25
     steps:
       - run: *shallow-git-clone
       - attach_workspace:
