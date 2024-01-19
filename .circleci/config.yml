@@ -683,8 +683,11 @@ jobs:
       - attach_workspace:
           at: .
       - run:
+          name: retry install
+          command: sudo apt-get update && sudo apt-get install retry
+      - run:
           name: Build extension for testing
-          command: yarn build:test || yarn build:test
+          command: retry --until=success --times=3 --delay=5 yarn build:test
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test
