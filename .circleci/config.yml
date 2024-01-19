@@ -425,7 +425,7 @@ jobs:
           at: .
       - run:
           name: Validate LavaMoat build policy
-          command: yarn lavamoat:build:auto
+          command: yarn lavamoat:build:auto || yarn lavamoat:build:auto
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -441,7 +441,7 @@ jobs:
           at: .
       - run:
           name: Validate LavaMoat << parameters.build-type >>  policy
-          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
+          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>' || yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
