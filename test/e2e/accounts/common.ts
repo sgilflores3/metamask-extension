@@ -9,6 +9,7 @@ import {
   unlockWallet,
   validateContractDetails,
   multipleGanacheOptions,
+  regularDelayMs,
 } from '../helpers';
 import { Driver } from '../webdriver/driver';
 
@@ -184,6 +185,7 @@ export async function connectAccountToTestDapp(driver: Driver) {
   await switchToOrOpenDapp(driver);
   await driver.clickElement('#connectButton');
 
+  await driver.delay(regularDelayMs);
   await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
   await driver.clickElement({
     text: 'Next',
