@@ -68,15 +68,15 @@ commands:
   repeat3:
     description: 'Repeat this command 3 times, until it succeeds'
     parameters:
-      command:
+      repeat3command:
         type: string
       repeat3name:
         type: string
-        default: << parameters.command >>
+        default: << parameters.repeat3command >>
     steps:
       - run:
           name: << parameters.repeat3name >>
-          command: << parameters.command >> || << parameters.command >> || << parameters.command >>
+          command: << parameters.repeat3command >> || << parameters.repeat3command >> || << parameters.repeat3command >>
 
 workflows:
   test_and_release:
@@ -438,7 +438,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn lavamoat:build:auto
+          repeat3command: yarn lavamoat:build:auto
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -454,7 +454,7 @@ jobs:
           at: .
       - repeat3:
           repeat3name: Validate LavaMoat << parameters.build-type >>  policy
-          command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
+          repeat3command: yarn lavamoat:webapp:auto:ci '--build-types=<< parameters.build-type >>'
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -473,7 +473,7 @@ jobs:
                 value: << pipeline.git.branch >>
           steps:
             - repeat3:
-                command: yarn build dist
+                repeat3command: yarn build dist
       - when:
           condition:
             matches:
@@ -481,7 +481,7 @@ jobs:
               value: << pipeline.git.branch >>
           steps:
             - repeat3:
-                command: yarn build prod
+                repeat3command: yarn build prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -498,7 +498,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn build --build-type desktop dist
+          repeat3command: yarn build --build-type desktop dist
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -528,7 +528,7 @@ jobs:
                 value: << pipeline.git.branch >>
           steps:
             - repeat3:
-                command: yarn build --build-type mmi dist
+                repeat3command: yarn build --build-type mmi dist
       - when:
           condition:
             matches:
@@ -536,7 +536,7 @@ jobs:
               value: << pipeline.git.branch >>
           steps:
             - repeat3:
-                command: yarn build --build-type mmi prod
+                repeat3command: yarn build --build-type mmi prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -569,7 +569,7 @@ jobs:
                 value: << pipeline.git.branch >>
           steps:
             - repeat3:
-                command: yarn build --build-type flask dist
+                repeat3command: yarn build --build-type flask dist
       - when:
           condition:
             matches:
@@ -577,7 +577,7 @@ jobs:
               value: << pipeline.git.branch >>
           steps:
             - repeat3:
-                command: yarn build --build-type flask prod
+                repeat3command: yarn build --build-type flask prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -600,7 +600,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn build:test:flask
+          repeat3command: yarn build:test:flask
       - run:
           name: Move test build to 'dist-test-flask' to avoid conflict with production build
           command: mv ./dist ./dist-test-flask
@@ -620,7 +620,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn build:test:mmi
+          repeat3command: yarn build:test:mmi
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mmi
@@ -643,7 +643,7 @@ jobs:
           command: export MMI_CONFIGURATION_SERVICE_URL=$MMI_DEV_CONFIGURATION_SERVICE_URL
       - repeat3:
           repeat3name: Build MMI extension for Playwright e2e
-          command: yarn dist:mmi
+          repeat3command: yarn dist:mmi
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mmi-playwright
@@ -666,7 +666,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn build:test:mv3
+          repeat3command: yarn build:test:mv3
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mv3
@@ -686,7 +686,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn build:test
+          repeat3command: yarn build:test
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test
@@ -708,7 +708,7 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          command: yarn build:test
+          repeat3command: yarn build:test
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-multichain
