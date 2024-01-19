@@ -55,7 +55,6 @@ export interface ButtonIconStyleUtilityProps extends StyleUtilityProps {
    * Possible values could be 'ButtonIconSize.Sm' 24px, 'ButtonIconSize.Lg' 32px,
    */
   size?: ButtonIconSize;
-  // target?: string;
 }
 
 export type ButtonIconProps<C extends React.ElementType> =

@@ -140,17 +140,7 @@ export async function makeNewAccountAndSwitch(driver: Driver) {
   });
 
   // Click "Create" on the Snap's confirmation popup
-  try {
-    await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
-  } catch (e) {
-    console.log('Caught the no window problem:', e);
-    await driver.switchToWindowWithTitle(WINDOW_TITLES.SnapSimpleKeyringDapp);
-    await driver.clickElement({
-      text: 'Create Account',
-      tag: 'button',
-    });
-    await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
-  }
+  await driver.switchToWindowWithTitle(WINDOW_TITLES.Dialog);
   await driver.clickElement({
     css: '[data-testid="confirmation-submit-button"]',
     text: 'Create',

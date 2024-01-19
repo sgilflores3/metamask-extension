@@ -13,7 +13,7 @@ describe('Snap Account Signatures', function (this: Suite) {
 
   // Run sync, async approve, and async reject flows
   // (in Jest we could do this with test.each, but that does not exist here)
-  [/*'sync',*/ 'approve', 'reject'].forEach((flowType) => {
+  ['sync', 'approve', 'reject'].forEach((flowType) => {
     // generate title of the test from flowType
     const title = `can sign with ${flowType} flow`;
 
