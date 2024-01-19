@@ -870,7 +870,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome --retries 2 --debug
+              yarn test:e2e:chrome --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -897,7 +897,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome --retries 2 --debug
+              yarn test:e2e:chrome --retries 2 --debug
             fi
           no_output_timeout: 5m
           environment:
@@ -926,7 +926,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome --retries 2 --debug || echo "Temporarily suppressing MV3 e2e test failures"
+              yarn test:e2e:chrome --retries 2 --debug || echo "Temporarily suppressing MV3 e2e test failures"
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -951,7 +951,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome:rpc --retries 2
+              yarn test:e2e:chrome:rpc --retries 2
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1004,7 +1004,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome:rpc --retries 2 --debug --build-type=mmi
+              yarn test:e2e:chrome:rpc --retries 2 --debug --build-type=mmi
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1046,7 +1046,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:firefox:flask --retries 2 --debug
+              yarn test:e2e:firefox:flask --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1073,7 +1073,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome:flask --retries 2 --debug
+              yarn test:e2e:chrome:flask --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1100,7 +1100,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:chrome:mmi --retries 2 --debug --build-type=mmi
+              yarn test:e2e:chrome:mmi --retries 2 --debug --build-type=mmi
             fi
           no_output_timeout: 5m
       - store_artifacts:
@@ -1128,7 +1128,7 @@ jobs:
           command: |
             TESTFILES=$(circleci tests glob "test/e2e/mmi/**/*.spec.ts")
             echo "$TESTFILES"
-            echo "$TESTFILES" | timeout 20m circleci tests run --command="xvfb-run xargs yarn playwright test" verbose --split-by=timings || true
+            echo "$TESTFILES" | circleci tests run --command="xvfb-run xargs yarn playwright test" verbose --split-by=timings || true
           no_output_timeout: 10m
       - slack/notify:
           branch_pattern: Version-v*
@@ -1167,7 +1167,7 @@ jobs:
           command: |
             if .circleci/scripts/test-run-e2e.sh
             then
-              timeout 20m yarn test:e2e:firefox --retries 2 --debug
+              yarn test:e2e:firefox --retries 2 --debug
             fi
           no_output_timeout: 5m
       - store_artifacts:
