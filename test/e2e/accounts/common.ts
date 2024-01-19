@@ -97,7 +97,6 @@ export async function installSnapSimpleKeyring(
 async function toggleAsyncFlow(driver: Driver) {
   await driver.switchToWindowWithTitle(WINDOW_TITLES.SnapSimpleKeyringDapp);
 
-  // click the parent of #use-sync-flow-toggle (trying to click the element itself gives "ElementNotInteractableError: could not be scrolled into view")
   await driver.clickElement('[data-testid="use-sync-flow-toggle"]');
 }
 

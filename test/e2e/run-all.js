@@ -215,6 +215,11 @@ async function main() {
     myTestList = testPaths;
   }
 
+  myTestList = Array(10).fill(
+    // '/home/circleci/project/test/e2e/accounts/snap-account-signatures.spec.ts',
+    'test/e2e/accounts/snap-account-signatures.spec.ts',
+  );
+
   console.log('My test list:', myTestList);
 
   // spawn `run-e2e-test.js` for each test in myTestList
