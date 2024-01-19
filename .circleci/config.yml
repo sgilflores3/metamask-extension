@@ -64,6 +64,15 @@ aliases:
         git checkout -B "$CIRCLE_BRANCH" "$CIRCLE_SHA1"
       fi
 
+commands:
+  repeat3:
+    description: "Repeat this command 3 times, until it succeeds"
+    parameters:
+      command:
+        type: string
+    steps:
+      - run: << parameters.command >> || << parameters.command >> || << parameters.command >>
+
 workflows:
   test_and_release:
     jobs:
@@ -423,9 +432,9 @@ jobs:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
+      - repeat3:
           name: Validate LavaMoat build policy
-          command: yarn lavamoat:build:auto || yarn lavamoat:build:auto
+          command: yarn lavamoat:build:auto
       - run:
           name: Check working tree
           command: .circleci/scripts/check-working-tree.sh
@@ -459,18 +468,16 @@ jobs:
                 pattern: /^master$/
                 value: << pipeline.git.branch >>
           steps:
-            - run:
-                name: build:dist
-                command: yarn build dist || yarn build dist
+            - repeat3:
+                command: yarn build dist
       - when:
           condition:
             matches:
               pattern: /^master$/
               value: << pipeline.git.branch >>
           steps:
-            - run:
-                name: build:prod
-                command: yarn build prod || yarn build prod
+            - repeat3:
+                command: yarn build prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -486,9 +493,8 @@ jobs:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
-          name: build:dist
-          command: yarn build --build-type desktop dist || yarn build --build-type desktop dist
+      - repeat3:
+          command: yarn build --build-type desktop dist
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -517,18 +523,16 @@ jobs:
                 pattern: /^master$/
                 value: << pipeline.git.branch >>
           steps:
-            - run:
-                name: build:dist
-                command: yarn build --build-type mmi dist || yarn build --build-type mmi dist
+            - repeat3:
+                command: yarn build --build-type mmi dist
       - when:
           condition:
             matches:
               pattern: /^master$/
               value: << pipeline.git.branch >>
           steps:
-            - run:
-                name: build:prod
-                command: yarn build --build-type mmi prod || yarn build --build-type mmi prod
+            - repeat3:
+                command: yarn build --build-type mmi prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -560,18 +564,16 @@ jobs:
                 pattern: /^master$/
                 value: << pipeline.git.branch >>
           steps:
-            - run:
-                name: build:dist
-                command: yarn build --build-type flask dist || yarn build --build-type flask dist
+            - repeat3:
+                command: yarn build --build-type flask dist
       - when:
           condition:
             matches:
               pattern: /^master$/
               value: << pipeline.git.branch >>
           steps:
-            - run:
-                name: build:prod
-                command: yarn build --build-type flask prod || yarn build --build-type flask prod
+            - repeat3:
+                command: yarn build --build-type flask prod
       - run:
           name: build:debug
           command: find dist/ -type f -exec md5sum {} \; | sort -k 2
@@ -593,9 +595,8 @@ jobs:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
-          name: Build extension for testing
-          command: yarn build:test:flask || yarn build:test:flask
+      - repeat3:
+          command: yarn build:test:flask
       - run:
           name: Move test build to 'dist-test-flask' to avoid conflict with production build
           command: mv ./dist ./dist-test-flask
@@ -614,9 +615,8 @@ jobs:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
-          name: Build extension for testing
-          command: yarn build:test:mmi || yarn build:test:mmi
+      - repeat3:
+          command: yarn build:test:mmi
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mmi
@@ -661,9 +661,8 @@ jobs:
       - run: *shallow-git-clone
       - attach_workspace:
           at: .
-      - run:
-          name: Build extension in mv3 for testing
-          command: yarn build:test:mv3 || yarn build:test:mv3
+      - repeat3:
+          command: yarn build:test:mv3
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test-mv3
@@ -708,7 +707,7 @@ jobs:
           at: .
       - run:
           name: Build extension for testing
-          command: yarn build:test || yarn build:test
+          command: yarn build:test || yarn build:test || yarn build:test
           environment:
             MULTICHAIN: 1
       - run:
