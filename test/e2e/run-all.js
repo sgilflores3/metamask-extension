@@ -36,7 +36,7 @@ const getTestPathsForTestDir = async (testDir) => {
 };
 
 // For running E2Es in parallel in CI
-function runningOnCircleCI(testPaths) {
+/*function runningOnCircleCI(testPaths) {
   const fullTestList = testPaths.join('\n');
   console.log('Full test list:', fullTestList);
   fs.writeFileSync('test/test-results/fullTestList.txt', fullTestList);
@@ -66,7 +66,7 @@ function runningOnCircleCI(testPaths) {
   return fs
     .readFileSync('test/test-results/myTestList.txt', { encoding: 'utf8' })
     .split(' ');
-}
+}*/
 
 async function main() {
   const { argv } = yargs(hideBin(process.argv))
