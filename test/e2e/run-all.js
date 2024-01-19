@@ -209,16 +209,23 @@ async function main() {
   await fs.promises.mkdir('test/test-results/e2e', { recursive: true });
 
   let myTestList;
-  if (process.env.CIRCLECI) {
-    myTestList = runningOnCircleCI(testPaths);
-  } else {
-    myTestList = testPaths;
-  }
+  // if (process.env.CIRCLECI) {
+  //   myTestList = runningOnCircleCI(testPaths);
+  // } else {
+  //   myTestList = testPaths;
+  // }
 
-  myTestList = Array(10).fill(
-    // '/home/circleci/project/test/e2e/accounts/snap-account-signatures.spec.ts',
-    'test/e2e/accounts/snap-account-signatures.spec.ts',
-  );
+  if (
+    testPaths.includes(
+      '/home/circleci/project/test/e2e/accounts/snap-account-signatures.spec.ts',
+    )
+  ) {
+    myTestList = Array(10).fill(
+      'test/e2e/accounts/snap-account-signatures.spec.ts',
+    );
+  } else {
+    myTestList = [];
+  }
 
   console.log('My test list:', myTestList);
 
