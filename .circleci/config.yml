@@ -684,10 +684,10 @@ jobs:
           at: .
       - run:
           name: retry install
-          command: sudo apt-get update && sudo apt-get install retry
+          command: sudo apt update && sudo apt install parallel
       - run:
           name: Build extension for testing
-          command: retry --until=success --times=3 --delay=5 yarn build:test
+          command: parallel --retries 5 --delay 15s ::: yarn build:test
       - run:
           name: Move test build to 'dist-test' to avoid conflict with production build
           command: mv ./dist ./dist-test
