@@ -433,7 +433,6 @@ jobs:
       - attach_workspace:
           at: .
       - repeat3:
-          name: Validate LavaMoat build policy
           command: yarn lavamoat:build:auto
       - run:
           name: Check working tree
