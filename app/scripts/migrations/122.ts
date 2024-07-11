@@ -46,10 +46,10 @@ function transformState(state: Record<string, any>) {
   }
 
   if (
-    state.PreferencesController.preferences
-      .redesignedConfirmationsEnabled === false ||
-    state.PreferencesController.preferences
-      .redesignedConfirmationsEnabled === undefined
+    state.PreferencesController.preferences.redesignedConfirmationsEnabled ===
+      false ||
+    state.PreferencesController.preferences.redesignedConfirmationsEnabled ===
+      undefined
   ) {
     state.PreferencesController.preferences.redesignedConfirmationsEnabled =
       true;
