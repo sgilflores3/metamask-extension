@@ -27,6 +27,7 @@ export async function migrate(
 }
 
 // TODO: Replace `any` with specific type
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function transformState(state: Record<string, any>) {
   if (!hasProperty(state, 'PreferencesController')) {
     return state;
@@ -40,15 +41,18 @@ function transformState(state: Record<string, any>) {
     state.PreferencesController = {
       preferences: {
         redesignedConfirmationsEnabled: false,
-      }
+      },
     };
   }
 
   if (
-    state.PreferencesController.preferences.redesignedConfirmationsEnabled === false ||
-    state.PreferencesController.preferences.redesignedConfirmationsEnabled === undefined
+    state.PreferencesController.preferences
+      .redesignedConfirmationsEnabled === false ||
+    state.PreferencesController.preferences
+      .redesignedConfirmationsEnabled === undefined
   ) {
-    state.PreferencesController.preferences.redesignedConfirmationsEnabled = true;
+    state.PreferencesController.preferences.redesignedConfirmationsEnabled =
+      true;
   }
 
   return state;
